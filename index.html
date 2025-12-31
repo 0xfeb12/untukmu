@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>22nd of you💕</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    color: white;
+}
+
+.box {
+    background: rgba(255,255,255,0.2);
+    padding: 30px;
+    border-radius: 25px;
+    text-align: center;
+    max-width: 360px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.25);
+    animation: zoomIn 1.2s;
+}
+
+.slider {
+    width: 240px;
+    height: 240px;
+    margin: auto;
+    overflow: hidden;
+    border-radius: 20px;
+    border: 5px solid rgba(255,255,255,0.7);
+    margin-bottom: 10px;
+    touch-action: pan-y;
+}
+
+.slides {
+    display: flex;
+    transition: transform 0.4s ease;
+}
+
+.slide {
+    width: 240px;
+    height: 240px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    user-select: none;
+}
+
+/* DOT */
+.dots {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    margin: 0 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.dot.active {
+    background: white;
+    transform: scale(1.4);
+}
+
+/* PESAN RAHASIA */
+.secret-box {
+    background: rgba(255,255,255,0.25);
+    padding: 15px;
+    border-radius: 15px;
+}
+
+.secret-message {
+    display: none;
+    animation: fadeIn 1s;
+}
+
+.open-btn {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 20px;
+    background: #ff4d6d;
+    color: white;
+    cursor: pointer;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 25px;
+    background: #ff4d6d;
+    color: white;
+    cursor: pointer;
+}
+
+.float {
+    position: absolute;
+    font-size: 25px;
+    animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(100vh); opacity: 0; }
+    30% { opacity: 1; }
+    100% { transform: translateY(-10vh); opacity: 0; }
+}
+
+@keyframes zoomIn {
+    from { opacity: 0; transform: scale(0.7); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<div class="slider" id="slider">
+<div class="slides" id="slides">
+
+    <!-- FOTO -->
+    <div class="slide"><img src="flow.jpg"></div>
+    <div class="slide"><img src="foto1.jpg"></div>
+    <div class="slide"><img src="foto2.jpg"></div>
+    <div class="slide"><img src="foto3.jpg"></div>
+    <div class="slide"><img src="foto4.jpg"></div>
+    <div class="slide"><img src="foto5.jpg"></div>
+    <div class="slide"><img src="cium.jpg"></div>
+    <!-- PESAN RAHASIA -->
+    <div class="slide">
+        <div class="secret-box">
+            <div id="locked">
+                <h3>🔒 Pesan Rahasia</h3>
+                <p>Khusus buat kamu 🤍</p>
+                <button class="open-btn" onclick="openSecret()">Buka Pesan 💌</button>
+            </div>
+            <div id="secret" class="secret-message">
+                <h3> Untuk Kamu</h3>
+                <p>
+                   
+                    jujur aku tidaa tauu maungomong apaa sayang heheh<br>
+                    tapi anu e... , lupa sayang mau ngomong apa🗿.<br>
+                    <br>
+                   anuu happy birthday and loppe youu sayang 💕
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+<!-- DOT INDICATOR -->
+<div class="dots" id="dots"></div>
+
+
+<p></p>
+<button onclick="playMusic()">ini clik dulu</button></button>
+<h3>22nd of you</h3>
+<p>Ada satu tanggal
+yang tak pernah kutulis,
+namun kuingat.
+<br>
+<br>
+Sejak kau menyebutkannya,
+waktu diam sebentar,
+lalu berjalan berbeda.
+.</p>
+<br>
+<p>note: geser foto di atas sayang...!!!</p>
+</div>
+
+<audio id="music" loop>
+<source src="untukmu.mp3">
+</audio>
+
+<script>
+const slides = document.getElementById("slides");
+const slider = document.getElementById("slider");
+const dotsContainer = document.getElementById("dots");
+const total = slides.children.length;
+const width = 240;
+
+let index = 0;
+let startX = 0;
+let currentX = 0;
+
+// CREATE DOTS
+for (let i = 0; i < total; i++) {
+    const dot = document.createElement("div");
+    dot.className = "dot";
+    dot.onclick = () => {
+        index = i;
+        update();
+    };
+    dotsContainer.appendChild(dot);
+}
+
+function updateDots() {
+    document.querySelectorAll(".dot").forEach((d, i) => {
+        d.classList.toggle("active", i === index);
+    });
+}
+
+function update() {
+    slides.style.transform = `translateX(-${index * width}px)`;
+    updateDots();
+}
+updateDots();
+
+// SWIPE TOUCH
+slider.addEventListener("touchstart", e => {
+    startX = e.touches[0].clientX;
+});
+slider.addEventListener("touchmove", e => {
+    currentX = e.touches[0].clientX;
+});
+slider.addEventListener("touchend", () => {
+    let diff = startX - currentX;
+    if (diff > 50 && index < total - 1) index++;
+    if (diff < -50 && index > 0) index--;
+    update();
+});
+
+// MOUSE DRAG
+slider.addEventListener("mousedown", e => {
+    startX = e.clientX;
+});
+slider.addEventListener("mouseup", e => {
+    let diff = startX - e.clientX;
+    if (diff > 50 && index < total - 1) index++;
+    if (diff < -50 && index > 0) index--;
+    update();
+});
+
+// PESAN RAHASIA
+function openSecret() {
+    document.getElementById("locked").style.display = "none";
+    document.getElementById("secret").style.display = "block";
+}
+
+// FLOAT
+setInterval(() => {
+    const el = document.createElement("div");
+    el.className = "float";
+    el.innerHTML = Math.random() > 0.5 ? "" : "";
+    el.style.left = Math.random() * 100 + "vw";
+    el.style.animationDuration = Math.random() * 3 + 4 + "s";
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 6000);
+}, 400);
+
+function playMusic() {
+    document.getElementById("music").play();
+}
+</script>
+</body>
+  </html>
