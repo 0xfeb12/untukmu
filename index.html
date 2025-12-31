@@ -2,78 +2,92 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>22nd of you💕</title>
 
 <style>
+:root {
+    --slider-size: min(80vw, 280px);
+}
+
 body {
     margin: 0;
-    height: 100vh;
+    min-height: 100vh;
     background: linear-gradient(135deg, #ff9a9e, #fad0c4);
     font-family: 'Segoe UI', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     overflow: hidden;
     color: white;
 }
 
+/* BOX */
 .box {
-    background: rgba(255,255,255,0.2);
-    padding: 30px;
-    border-radius: 25px;
-    text-align: center;
-    max-width: 360px;
-    box-shadow: 0 0 30px rgba(0,0,0,0.25);
-    animation: zoomIn 1.2s;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    box-sizing: border-box;
 }
 
+/* SLIDER */
 .slider {
-    width: 240px;
-    height: 240px;
-    margin: auto;
+    width: var(--slider-size);
+    height: var(--slider-size);
     overflow: hidden;
     border-radius: 20px;
-    border: 5px solid rgba(255,255,255,0.7);
-    margin-bottom: 10px;
-    touch-action: pan-y;
+    border: 4px solid rgba(255,255,255,0.7);
+    transition: 0.6s ease;
 }
 
+.slider.fullscreen {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+    border: none;
+}
+
+/* SLIDES */
 .slides {
     display: flex;
-    transition: transform 0.4s ease;
+    height: 100%;
+    transition: transform 0.45s ease;
 }
 
 .slide {
-    width: 240px;
-    height: 240px;
+    width: var(--slider-size);
+    height: var(--slider-size);
     flex-shrink: 0;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+.slider.fullscreen .slide {
+    width: 100vw;
+    height: 100vh;
+}
+
+/* IMAGE */
 .slide img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    user-select: none;
 }
 
 /* DOT */
 .dots {
     display: flex;
-    justify-content: center;
-    margin-bottom: 10px;
+    margin: 10px 0;
 }
 
 .dot {
-    width: 10px;
-    height: 10px;
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
     background: rgba(255,255,255,0.5);
-    margin: 0 5px;
-    cursor: pointer;
-    transition: 0.3s;
+    margin: 0 4px;
 }
 
 .dot.active {
@@ -81,40 +95,46 @@ body {
     transform: scale(1.4);
 }
 
-/* PESAN RAHASIA */
+/* TEXT */
+h3 {
+    font-size: clamp(1.1rem, 4vw, 1.4rem);
+    margin: 6px 0;
+}
+
+p {
+    font-size: clamp(0.85rem, 3.5vw, 1rem);
+    text-align: center;
+    line-height: 1.6;
+    max-width: 320px;
+}
+
+/* SECRET */
 .secret-box {
-    background: rgba(255,255,255,0.25);
-    padding: 15px;
-    border-radius: 15px;
+    background: rgba(0,0,0,0.45);
+    padding: clamp(20px, 5vw, 35px);
+    border-radius: 20px;
+    max-width: 90vw;
+    text-align: center;
 }
 
 .secret-message {
     display: none;
-    animation: fadeIn 1s;
-}
-
-.open-btn {
-    padding: 8px 20px;
-    border: none;
-    border-radius: 20px;
-    background: #ff4d6d;
-    color: white;
-    cursor: pointer;
 }
 
 button {
-    margin-top: 10px;
-    padding: 10px 25px;
+    padding: 10px 22px;
     border: none;
     border-radius: 25px;
     background: #ff4d6d;
     color: white;
+    font-size: clamp(0.85rem, 3.5vw, 1rem);
     cursor: pointer;
 }
 
+/* FLOAT */
 .float {
     position: absolute;
-    font-size: 25px;
+    font-size: 24px;
     animation: floatUp 6s linear infinite;
 }
 
@@ -122,16 +142,6 @@ button {
     0% { transform: translateY(100vh); opacity: 0; }
     30% { opacity: 1; }
     100% { transform: translateY(-10vh); opacity: 0; }
-}
-
-@keyframes zoomIn {
-    from { opacity: 0; transform: scale(0.7); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
 }
 </style>
 </head>
@@ -143,7 +153,6 @@ button {
 <div class="slider" id="slider">
 <div class="slides" id="slides">
 
-    <!-- FOTO -->
     <div class="slide"><img src="flow.jpg"></div>
     <div class="slide"><img src="foto1.jpg"></div>
     <div class="slide"><img src="foto2.jpg"></div>
@@ -151,22 +160,22 @@ button {
     <div class="slide"><img src="foto4.jpg"></div>
     <div class="slide"><img src="foto5.jpg"></div>
     <div class="slide"><img src="cium.jpg"></div>
-    <!-- PESAN RAHASIA -->
+
+    <!-- FULLSCREEN SECRET -->
     <div class="slide">
         <div class="secret-box">
             <div id="locked">
                 <h3>🔒 Pesan Rahasia</h3>
                 <p>Khusus buat kamu 🤍</p>
-                <button class="open-btn" onclick="openSecret()">Buka Pesan 💌</button>
+                <button onclick="openSecret()">Buka Pesan 💌</button>
             </div>
+
             <div id="secret" class="secret-message">
-                <h3> Untuk Kamu</h3>
+                <h3>Untuk Kamu</h3>
                 <p>
-                   
                     jujur aku tidaa tauu maungomong apaa sayang heheh<br>
-                    tapi anu e... , lupa sayang mau ngomong apa🗿.<br>
-                    <br>
-                   anuu happy birthday and loppe youu sayang 💕
+                    tapi anu e... lupa sayang mau ngomong apa🗿<br><br>
+                    anuu happy birthday and loppe youu sayang 💕
                 </p>
             </div>
         </div>
@@ -175,24 +184,19 @@ button {
 </div>
 </div>
 
-<!-- DOT INDICATOR -->
 <div class="dots" id="dots"></div>
 
-
-<p></p>
-<button onclick="playMusic()">ini clik dulu</button></button>
 <h3>22nd of you</h3>
-<p>Ada satu tanggal
-yang tak pernah kutulis,
-namun kuingat.
-<br>
-<br>
-Sejak kau menyebutkannya,
-waktu diam sebentar,
+<p>
+Ada satu tanggal yang tak pernah kutulis,<br>
+namun kuingat.<br><br>
+Sejak kau menyebutkannya,<br>
+waktu diam sebentar,<br>
 lalu berjalan berbeda.
-.</p>
-<br>
-<p>note: geser foto di atas sayang...!!!</p>
+</p>
+
+<p><small>note: geser foto di atas sayang...!!!</small></p>
+
 </div>
 
 <audio id="music" loop>
@@ -202,63 +206,55 @@ lalu berjalan berbeda.
 <script>
 const slides = document.getElementById("slides");
 const slider = document.getElementById("slider");
-const dotsContainer = document.getElementById("dots");
+const dots = document.getElementById("dots");
+const music = document.getElementById("music");
 const total = slides.children.length;
-const width = 240;
 
 let index = 0;
 let startX = 0;
-let currentX = 0;
 
-// CREATE DOTS
+// DOTS
 for (let i = 0; i < total; i++) {
-    const dot = document.createElement("div");
-    dot.className = "dot";
-    dot.onclick = () => {
-        index = i;
-        update();
-    };
-    dotsContainer.appendChild(dot);
+    const d = document.createElement("div");
+    d.className = "dot";
+    d.onclick = () => { index = i; update(); };
+    dots.appendChild(d);
 }
 
-function updateDots() {
+function update() {
+    const slideSize = slider.classList.contains("fullscreen")
+        ? window.innerWidth
+        : slider.offsetWidth;
+
+    slides.style.transform = `translateX(-${index * slideSize}px)`;
+
+    if (index === total - 1) {
+        slider.classList.add("fullscreen");
+        dots.style.display = "none";
+        music.play().catch(()=>{});
+    } else {
+        slider.classList.remove("fullscreen");
+        dots.style.display = "flex";
+        music.pause();
+        music.currentTime = 0;
+    }
+
     document.querySelectorAll(".dot").forEach((d, i) => {
         d.classList.toggle("active", i === index);
     });
 }
+update();
 
-function update() {
-    slides.style.transform = `translateX(-${index * width}px)`;
-    updateDots();
-}
-updateDots();
-
-// SWIPE TOUCH
-slider.addEventListener("touchstart", e => {
-    startX = e.touches[0].clientX;
-});
-slider.addEventListener("touchmove", e => {
-    currentX = e.touches[0].clientX;
-});
-slider.addEventListener("touchend", () => {
-    let diff = startX - currentX;
+// SWIPE
+slider.addEventListener("touchstart", e => startX = e.touches[0].clientX);
+slider.addEventListener("touchend", e => {
+    let diff = startX - e.changedTouches[0].clientX;
     if (diff > 50 && index < total - 1) index++;
     if (diff < -50 && index > 0) index--;
     update();
 });
 
-// MOUSE DRAG
-slider.addEventListener("mousedown", e => {
-    startX = e.clientX;
-});
-slider.addEventListener("mouseup", e => {
-    let diff = startX - e.clientX;
-    if (diff > 50 && index < total - 1) index++;
-    if (diff < -50 && index > 0) index--;
-    update();
-});
-
-// PESAN RAHASIA
+// SECRET
 function openSecret() {
     document.getElementById("locked").style.display = "none";
     document.getElementById("secret").style.display = "block";
@@ -266,18 +262,14 @@ function openSecret() {
 
 // FLOAT
 setInterval(() => {
-    const el = document.createElement("div");
-    el.className = "float";
-    el.innerHTML = Math.random() > 0.5 ? "" : "";
-    el.style.left = Math.random() * 100 + "vw";
-    el.style.animationDuration = Math.random() * 3 + 4 + "s";
-    document.body.appendChild(el);
-    setTimeout(() => el.remove(), 6000);
-}, 400);
-
-function playMusic() {
-    document.getElementById("music").play();
-}
+    const f = document.createElement("div");
+    f.className = "float";
+    f.innerHTML = Math.random() > 0.5 ? "❤️" : "🎈";
+    f.style.left = Math.random() * 100 + "vw";
+    document.body.appendChild(f);
+    setTimeout(() => f.remove(), 6000);
+}, 600);
 </script>
+
 </body>
-  </html>
+</html>
